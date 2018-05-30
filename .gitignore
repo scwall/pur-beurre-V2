@@ -52,3 +52,5 @@ fabric.properties
 .idea/httpRequests
 #venv
 venv/
+#sqlite 3
+*.sqlite3
