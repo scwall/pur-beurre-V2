@@ -54,3 +54,5 @@ fabric.properties
 venv/
 #sqlite 3
 *.sqlite3
+#bin function
+food_and_search/bin_functions.py
