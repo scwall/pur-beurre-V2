@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 # Create your models here.
@@ -9,9 +10,10 @@ class Categories(models.Model):
         return self.name
 
 class Products(models.Model):
+    product_favourite = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='product_favourite')
     categories = models.ManyToManyField(Categories)
     name = models.CharField(max_length=150)
-    link_http = models.CharField(max_length=45)
+    link_http = models.CharField(max_length=150)
     description = models.TextField()
     nutrition_grade = models.CharField(max_length=1)
     saturated_fat_100g = models.FloatField()
@@ -21,3 +23,4 @@ class Products(models.Model):
     sodium_100g = models.FloatField()
     def __str__(self):
         return self.name
+

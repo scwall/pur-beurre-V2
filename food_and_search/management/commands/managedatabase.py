@@ -1,4 +1,3 @@
-import multiprocessing
 from multiprocessing.dummy import Pool
 
 from django.core.management.base import BaseCommand
@@ -7,7 +6,6 @@ import os
 import sys
 import time
 import requests
-from ...models import Categories, Products
 from food_and_search.models import Categories,Products
 class Command(BaseCommand):
     help = 'Use the command --chargedatabase, to load the database or use, for example --updatedatabase in a cron to update it'
