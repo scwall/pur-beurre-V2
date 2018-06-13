@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block context %}
+<header class="masthead text-center text-white d-flex">
+
+      <div class="container my-auto">
+        <div class="row">
+          <div class="col-lg-10 mx-auto">
+           <ul>
+                {% for product in products %}
+                    <li>{{ product.name }}</li>
+                {% endfor %}
+            </ul>
+            {% if products.has_previous %}
+          <li><a href="?page={{ products.previous_page_number }}">Précédent</a></li>
+             {% endif %}
+            {% if products.has_next %}
+          <li><a href="?page={{ products.next_page_number }}">Suivant</a></li>
+            {% endif %}
+          <div class="col-lg-8 mx-auto">
+
+          </div>
+        </div>
+      </div>
+      </div>
+</header>
+
+{% endblock %}
+
