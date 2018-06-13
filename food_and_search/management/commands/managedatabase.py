@@ -6,7 +6,7 @@ import os
 import sys
 import time
 import requests
-from food_and_search.models import Categories,Products
+from food_and_search.models import Categorie,Product
 class Command(BaseCommand):
     help = 'Use the command --chargedatabase, to load the database or use, for example --updatedatabase in a cron to update it'
 
@@ -47,7 +47,7 @@ class Command(BaseCommand):
             for categories in categories_dic['tags']:
                 if int(categories['products']) > 10 and len(categories['name']) < 150 and str(
                         categories['name']).lower() != str(categories['id']).lower():
-                    categorie_add = Categories(name=categories['name'],
+                    categorie_add = Categorie(name=categories['name'],
                                                 id_category=categories['id'])
                     categorie_add.save()
                     count += 1
@@ -58,8 +58,6 @@ class Command(BaseCommand):
                 self.stdout.write("\rCategory Recovery, " + str(percentage_calculation(count, total_count)) + "%" +
                       " d'effectué(s)\r")
                 sys.stdout.flush()
-
-
             self.stdout.write("\rRecovering successful categories\r")
             time.sleep(2)
             # recovery the products
@@ -99,26 +97,28 @@ class Command(BaseCommand):
                                     and 'categories_tags' in product.keys() \
                                     and 1 <= len(product['product_name_fr']) <= 100:
                                 try:
-                                    add_product = Products(name=product['product_name_fr'],
+                                    add_product = Product(name=product['product_name_fr'],
                                                        description=product['ingredients_text_fr'],
                                                        nutrition_grade=product['nutrition_grades'],
                                                        link_http=product['url'],
+                                                       link_picture = product['image_front_small_url'],
                                                        saturated_fat_100g=product['nutriments']['saturated-fat_100g'],
                                                        carbohydrates_100g=product['nutriments']['carbohydrates_100g'],
                                                        energy_100g=product['nutriments']['energy_100g'],
                                                        sugars_100g=product['nutriments']['sugars_100g'],
-                                                       sodium_100g=product['nutriments']['sodium_100g']
+                                                       sodium_100g=product['nutriments']['sodium_100g'],
 
 
                                                        )
                                     add_product.save()
                                     for  categorie in product['categories_tags']:
+                                            try:
+                                                add_categorie = Categorie.objects.get(id_category=str(categorie))
+                                                add_product.categorie.add(add_categorie)
+                                            except:
+                                                add_product.delete()
 
-                                        try:
-                                            add_categorie = Categories.objects.get(id_category=str(categorie))
-                                            add_product.categories.add(add_categorie)
-                                        except:
-                                            pass
+
                                 except KeyError:
                                     continue
 
