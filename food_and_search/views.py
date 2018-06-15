@@ -10,9 +10,10 @@ from .forms import research_product_form
 
 def index(request):
     # if this is a POST request we need to process the form data
-    if request.method == 'POST':
+    paginator = object
+    if request.method == 'GET':
         # create a form instance and populate it with data from the request:
-        form = research_product_form(request.POST)
+        form = research_product_form(request.GET or None)
         # check whether it's valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required
@@ -24,24 +25,19 @@ def index(request):
 
                 categories = Categorie.objects.filter(products__id=product[0].id)
                 products = Product.objects.filter(categorie__in=categories).filter(nutrition_grade='a')
+                print(products)
                 paginator = Paginator(products, 9)
-                page = request.GET.get('page', 1)
+                page = request.GET.get('product')
                 print(page)
-                products_paginator = paginator.page(page)
-
+                products_paginator = paginator.get_page(number=page)
 
                 context = {'products': products_paginator}
             else:
                 raise Http404("Je n'ai trouvé votre produit {}".format(product_cleaned))
-
             return render(request,'response.html', context )
 
-
-
-
-    # if a GET (or any other method) we'll create a blank form
     else:
-        form = research_product_form()
+        form = research_product_form(request.GET or None)
 
     return render(request, 'index.html', {'form': form})
 

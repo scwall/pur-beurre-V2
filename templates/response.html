@@ -9,14 +9,17 @@
           <div class="col-lg-10 mx-auto">
            <ul>
                 {% for product in products %}
-                    <li>{{ product.name }}</li>
+                    <li>{{ product.name }}
+
+                        <img src="{{ product.link_picture }}" height="42" width="42">
+                    </li>
                 {% endfor %}
             </ul>
             {% if products.has_previous %}
-          <li><a href="?page={{ products.previous_page_number }}">Précédent</a></li>
+          <li><a href="?product={{ products.previous_page_number }}">Précédent</a></li>
              {% endif %}
             {% if products.has_next %}
-          <li><a href="?page={{ products.next_page_number }}">Suivant</a></li>
+          <li><a href="?product={{ products.next_page_number }}">Suivant</a></li>
             {% endif %}
           <div class="col-lg-8 mx-auto">
 
