@@ -17,23 +17,17 @@ def index(request):
         # check whether it's valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
             product_cleaned = form.cleaned_data['product']
             product = Product.objects.filter(name__icontains=product_cleaned)
             if product.exists():
-
                 categories = Categorie.objects.filter(products__id=product[0].id)
-                products = Product.objects.filter(categorie__in=categories).filter(nutrition_grade='a')
-                print(products)
-                paginator = Paginator(products, 9)
+                products = Product.objects.filter(categorie__in=categories).order_by('nutrition_grade')
+                paginator = Paginator(products, 6)
                 page = request.GET.get('product')
-                print(page)
                 products_paginator = paginator.get_page(number=page)
-
                 context = {'products': products_paginator}
             else:
-                raise Http404("Je n'ai trouvé votre produit {}".format(product_cleaned))
+                raise Http404(product_cleaned)
             return render(request,'response.html', context )
 
     else:
@@ -41,31 +35,10 @@ def index(request):
 
     return render(request, 'index.html', {'form': form})
 
-def signup_view(request):
-    form = dict
-
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            print('réussi')
-            return redirect('/food/')
-        else:
-            form = UserCreationForm()
-    return render(request,'signup.html', {'form': form })
-
-def login(request):
-    form = AuthenticationForm()
-    if request.method == 'POST':
-        if request.method == 'POST':
-            form = AuthenticationForm(data=request.POST)
-            if form.is_valid():
-                print(User.objects.all())
-        else:
-            form = AuthenticationForm()
-    return  render(request,'login.html', {'form':form})
-
-@login_required(login_url='/food/login/')
+@login_required(login_url='/accounts/login/')
 def userpage(request):
+    current_user = request.user
 
-    return render(request,'userpage.html')
+    product2 = Product.objects.filter(user_product__exact=current_user.id)
+    context = {'products':product2}
+    return render(request,'userpage.html',context)

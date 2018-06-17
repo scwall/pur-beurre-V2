@@ -7,7 +7,12 @@
       <div class="container my-auto">
         <div class="row">
           <div class="col-lg-10 mx-auto">
-
+              {% if user.is_authenticated %}
+                  <p>Welcome, {{ user.get_username }}. Thanks for logging in.</p>
+                  {% for product in products %}
+                      <p> {{ product.name }}</p>
+                  {% endfor %}
+              {% endif %}
              <p> user page</p>
         </div>
       </div>
