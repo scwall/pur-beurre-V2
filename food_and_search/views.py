@@ -21,25 +21,29 @@ def userpage(request):
     return render(request,'userpage.html',context)
 
 def result(request):
-    paginator = object
-    if request.method == 'GET':
-        product_cleaned = request.GET['product']
-        product = Product.objects.filter(name__icontains=product_cleaned)
-        if product.exists():
-            categories = Categorie.objects.filter(products__id=product[0].id)
-            products = Product.objects.filter(categorie__in=categories).order_by('nutrition_grade')
-            paginator = Paginator(products, 6)
-            page = request.GET.get('product')
-            products_paginator = paginator.get_page(number=page)
-            context = {'products': products_paginator}
-        else:
-            raise Http404(product_cleaned)
-        return render(request, 'result.html', context)
-
-
+    product_cleaned = request.GET['product']
+    product = Product.objects.filter(name__icontains=product_cleaned)
+    if product.exists():
+        categories = Categorie.objects.filter(products__id=product[0].id)
+        products = Product.objects.filter(categorie__in=categories).order_by('nutrition_grade')
+        paginator = Paginator(products, 6)
+        page = request.GET.get('product')
+        products_paginator = paginator.get_page(number=page)
+        context = {'products': products_paginator}
     else:
-        raise Http404(' aucun produit chargé')
+        raise Http404(product_cleaned)
+        # return render(request, 'result.html', context)
+    if request.method == 'POST':
+        print('rr')
+        if request.user.is_authenticated:
+            current_user = request.user
+            id_product = request.POST.get['product_form']
+            product = Product.objects.filter(id=id_product)
+            product.objects.user_product.add(current_user)
+        else:
+            return redirect('/user')
 
+    return render(request, 'result.html', context)
 
 
 

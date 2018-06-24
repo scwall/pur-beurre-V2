@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path, include, re_path
 
 from . import views
 
@@ -7,7 +7,6 @@ urlpatterns = [
     # path('signup/', views.signup_view,),
     # path('login/', views.login, ),
      path('user/', views.userpage),
-    path('result/', views.result, name='result')
-
+    re_path(r'^result/$', views.result, name='result'),
 ]
 

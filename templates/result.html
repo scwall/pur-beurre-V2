@@ -10,6 +10,11 @@
            <ul>
                 {% for product in products %}
                     <li>{{ product.name }}
+                        <form class="spacer" action="" method="post">
+                            {% csrf_token %}
+                            <input name="product_form" value="{{ product.id }}" type="hidden">
+                        <input class="submit" type="submit" value="sauvegarder"  />
+                        </form>
 
                         <img src="{{ product.link_picture }}" height="42" width="42">
                     </li>
