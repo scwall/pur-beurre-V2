@@ -34,12 +34,14 @@ def result(request):
         raise Http404(product_cleaned)
         # return render(request, 'result.html', context)
     if request.method == 'POST':
-        print('rr')
         if request.user.is_authenticated:
+            print('test')
             current_user = request.user
-            id_product = request.POST.get['product_form']
-            product = Product.objects.filter(id=id_product)
-            product.objects.user_product.add(current_user)
+            id_product = int(request.POST['product_form'])
+            product = Product.objects.get(id=id_product)
+            product.user_product.add(current_user)
+            context['save_product'] = 'Produit sauvegardé'
+            context['id_product'] = id_product
         else:
             return redirect('/user')
 

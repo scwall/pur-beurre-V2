@@ -17,6 +17,9 @@
                         </form>
 
                         <img src="{{ product.link_picture }}" height="42" width="42">
+                    {% if id_product == product.id %}
+                        {{ save_product }}
+                    {% endif %}
                     </li>
                 {% endfor %}
             </ul>
