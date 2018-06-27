@@ -15,9 +15,20 @@ def index(request):
 @login_required(login_url='/accounts/login/')
 def userpage(request):
     current_user = request.user
+    user_products = Product.objects.filter(user_product__exact=current_user.id)
+    paginator = Paginator(user_products, 6)
+    page = request.GET.get('product')
+    products_paginator = paginator.get_page(number=page)
+    context = {'products': products_paginator}
+    if request.method == 'POST':
+        print('test')
+        current_user = request.user
+        id_product = int(request.POST['product_form'])
+        product = Product.objects.get(id=id_product)
+        product.user_product.remove(current_user)
+        context['save_product'] = 'Produit supprimé '
+        context['id_product'] = id_product
 
-    product2 = Product.objects.filter(user_product__exact=current_user.id)
-    context = {'products':product2}
     return render(request,'userpage.html',context)
 
 def result(request):
