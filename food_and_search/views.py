@@ -32,7 +32,9 @@ def userpage(request):
     return render(request,'userpage.html',context)
 
 def result(request):
-    product_cleaned = request.GET['product']
+    product_cleaned = str(request.GET['product'])
+    if product_cleaned.isdigit() == False:
+        request.session['product_session'] = product_cleaned
     product = Product.objects.filter(name__icontains=product_cleaned)
     if product.exists():
         categories = Categorie.objects.filter(products__id=product[0].id)
@@ -40,7 +42,8 @@ def result(request):
         paginator = Paginator(products, 6)
         page = request.GET.get('product')
         products_paginator = paginator.get_page(number=page)
-        context = {'products': products_paginator}
+        context = {'products': products_paginator,'original_product': Product.objects.filter(name__icontains=request.session.get('product_session'))[0]}
+
     else:
         raise Http404(product_cleaned)
         # return render(request, 'result.html', context)

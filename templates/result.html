@@ -2,15 +2,23 @@
 
 {% load static %}
 {% block context %}
+
     <header class="masthead text-center text-white d-flex">
 
         <div class="container my-auto">
+        <div class="row product-name-margin">
+            <div class="col-lg-12 result-product-size center-block" style="background-image: url({{original_product.link_picture }}); background-position: center;   background-size: cover;   background-repeat: no-repeat; ">
+            <h4 style="margin-top: 40px;">{{ original_product.name }} </h4>
+
+            </div>
+        </div>
             {% for product in products %}
                 {% if  forloop.counter == 1 or forloop.counter == 4 %}
                     <div class="row top-buffer" >
                 {% endif %}
                 <div class="col-lg-4 text-center">
                         <img src="{{ product.link_picture }}" height="150" width="150">
+                        <i> {{ product.nutrition_grade }}</i>
                     <h4>{{ product.name }}</h4>
                             <form class="spacer" action="" method="post">
                                 {% csrf_token %}
@@ -37,12 +45,7 @@
             {% if products.has_next %}
                 <li><a href="?product={{ products.next_page_number }}">Suivant</a></li>
             {% endif %}
-            <div class="col-lg-8 mx-auto">
-
             </div>
-            </div>
-        </div>
-        </div>
     </header>
 
 {% endblock %}
