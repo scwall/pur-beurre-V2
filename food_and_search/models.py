@@ -20,11 +20,11 @@ class Product(models.Model):
     link_picture = models.URLField()
     description = models.TextField()
     nutrition_grade = models.CharField(max_length=1)
-    saturated_fat_100g = models.FloatField()
-    carbohydrates_100g = models.FloatField()
+    saturated_fat_100g = models.FloatField(null=True)
+    carbohydrates_100g = models.FloatField(null=True)
     energy_100g = models.FloatField(null=True)
-    sugars_100g = models.FloatField()
-    sodium_100g = models.FloatField()
+    sugars_100g = models.FloatField(null=True)
+    sodium_100g = models.FloatField(null=True)
 
     def __str__(self):
 
