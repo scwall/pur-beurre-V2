@@ -2,22 +2,26 @@
 
 {% load static %}
 {% block context %}
-    <header class="masthead text-center text-white d-flex">
+<header class="masthead text-center text-white d-flex">
 
-        <div class="container my-auto">
+
+              {% if user.is_authenticated %}
+
+                 <div class="container my-auto">
             {% for product in products %}
                 {% if  forloop.counter == 1 or forloop.counter == 4 %}
                     <div class="row top-buffer" >
                 {% endif %}
                 <div class="col-lg-4 text-center">
-                        <img src="{{ product.link_picture }}" height="150" width="150">
+                    <a href="/detailproduct/{{ product.id }}/"><img  src="{{ product.link_picture }}" height="150" width="150" class="img-fluid"> </a>
                     <h4>{{ product.name }}</h4>
                             <form class="spacer" action="" method="post">
                                 {% csrf_token %}
                                 <input name="product_form" value="{{ product.id }}" type="hidden">
-                                <button type="submit"> <i class="fa fa-floppy-o" aria-hidden="true"> sauvegarder </i> </button>
+                                <button type="submit"> <i class="fa fa-floppy-o" aria-hidden="true"> supprimer </i> </button>
 
                             </form>
+
 
                             {% if id_product == product.id %}
                                 {{ save_product }}
@@ -29,20 +33,20 @@
                 {% endif %}
 
             {% endfor %}
-
+                <div class="row">
+                  <div class="col-lg-1">
             {% if products.has_previous %}
                 <li><a href="?product={{ products.previous_page_number }}">Précédent</a></li>
             {% endif %}
             {% if products.has_next %}
                 <li><a href="?product={{ products.next_page_number }}">Suivant</a></li>
             {% endif %}
-            <div class="col-lg-8 mx-auto">
+              {% endif %}
+    </div>
+    </div>
+      </div>
 
-            </div>
-            </div>
-        </div>
-        </div>
-    </header>
+</header>
 
 {% endblock %}
 

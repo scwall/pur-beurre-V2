@@ -7,13 +7,14 @@ from django.template import loader
 from django.core.paginator import Paginator
 from food_and_search.models import Categorie, Product
 from .forms import research_product_form
-
+from django.views.generic import ListView, DetailView
+from django.shortcuts import get_object_or_404
 def index(request):
 
     return render(request, 'index.html')
 
 @login_required(login_url='/accounts/login/')
-def userpage(request):
+def save_product(request):
     current_user = request.user
     user_products = Product.objects.filter(user_product__exact=current_user.id)
     paginator = Paginator(user_products, 6)
@@ -29,10 +30,12 @@ def userpage(request):
         context['save_product'] = 'Produit supprimé '
         context['id_product'] = id_product
 
-    return render(request,'userpage.html',context)
+    return render(request, 'save_product.html', context)
 
 def result(request):
-    product_cleaned = request.GET['product']
+    product_cleaned = str(request.GET['product'])
+    if product_cleaned.isdigit() == False:
+        request.session['product_session'] = product_cleaned
     product = Product.objects.filter(name__icontains=product_cleaned)
     if product.exists():
         categories = Categorie.objects.filter(products__id=product[0].id)
@@ -40,13 +43,13 @@ def result(request):
         paginator = Paginator(products, 6)
         page = request.GET.get('product')
         products_paginator = paginator.get_page(number=page)
-        context = {'products': products_paginator}
+        context = {'products': products_paginator,'original_product': Product.objects.filter(name__icontains=request.session.get('product_session'))[0]}
+
     else:
         raise Http404(product_cleaned)
-        # return render(request, 'result.html', context)
+        # return render(request, 'result_product.html', context)
     if request.method == 'POST':
         if request.user.is_authenticated:
-            print('test')
             current_user = request.user
             id_product = int(request.POST['product_form'])
             product = Product.objects.get(id=id_product)
@@ -56,8 +59,10 @@ def result(request):
         else:
             return redirect('/user')
 
-    return render(request, 'result.html', context)
+    return render(request, 'result_product.html', context)
 
-
+def DetailProduct(request,pk):
+    product = get_object_or_404(Product,pk=pk)
+    return render(request,template_name='detail_product.html',context={'detail_product':product} )
 
 

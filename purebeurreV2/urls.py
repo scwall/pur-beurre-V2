@@ -19,8 +19,6 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('', include('food_and_search.urls')),
     path('admin/', admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('accounts/login/', auth_views.LoginView.as_view()),
-    path('accounts/logout/', auth_views.LogoutView.as_view())
+
 ]
 

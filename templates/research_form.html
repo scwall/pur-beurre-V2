@@ -1,7 +1,10 @@
-<div class="form-group">
-    <form action='{% url 'result' %}' >
-      <label for="searchForm">Chercher un produits</label>
-      <input id="searchForm" class="form-control" name="product">
-    <input type="submit">
-    </form>
-    </div>
+<form action='{% url 'result' %}' class="form-inline form-row justify-content-center">
+    <div class="form-group">
+        <div class="col-md-8  mb-2">
+            <label for="searchForm" class="sr-only">Chercher un produits</label>
+            <input id="searchForm" class="form-control" name="product" placeholder="Chercher un produits">
+        </div>
+        </div>
+            <button type="submit" class="btn btn-primary mb-2"> valider</button>
+
+</form>
