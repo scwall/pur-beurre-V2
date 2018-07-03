@@ -9,11 +9,12 @@ from food_and_search.models import Categorie, Product
 from .forms import research_product_form
 from django.views.generic import ListView, DetailView
 from django.shortcuts import get_object_or_404
+from django.utils.decorators import method_decorator
 def index(request):
 
     return render(request, 'index.html')
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/login/')
 def save_product(request):
     current_user = request.user
     user_products = Product.objects.filter(user_product__exact=current_user.id)
@@ -57,12 +58,16 @@ def result(request):
             context['save_product'] = 'Produit sauvegardé'
             context['id_product'] = id_product
         else:
-            return redirect('/user')
+            return redirect('/login')
 
     return render(request, 'result_product.html', context)
 
-def DetailProduct(request,pk):
+def detail_product(request, pk):
     product = get_object_or_404(Product,pk=pk)
     return render(request,template_name='detail_product.html',context={'detail_product':product} )
 
+
+@login_required(login_url='/login/')
+def user_account(request):
+    return render(request,template_name='user_page.html')
 

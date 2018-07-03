@@ -42,17 +42,21 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
+            <li class="nav-item" style="margin-right: 5rem" >
+                {% include 'research_form.html' %}
+            </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="#about">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="#services">Services</a>
+                     <a class="nav-link" href="/user"> <i class="fa fa-user"></i> </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link " href="/saveproduct/"><img src="{% static '/img/carrot.png' %}" height="30" width="30"></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout/"> <i class="fas fa-sign-out-alt"></i> </a>
+                    {% if user.is_authenticated %}
+                    <a class="nav-link" href="/logout"> <i class="fas fa-sign-out-alt"></i> </a>
+                    {% else %}
+                        <a class="nav-link" href="/login"> <i class="fas fa-sign-in-alt"></i> </a>
+                    {% endif %}
 
                 </li>
                 <li class="nav-item">
@@ -63,9 +67,10 @@
         </div>
     </div>
 </nav>
-
+<div class="background-other-page">
 {% block context %}
 {% endblock %}
+</div>
 <footer>
     <nav class="navbar navbar-expand-lg navbar-light" id="footerNav">
         <div class="container">
