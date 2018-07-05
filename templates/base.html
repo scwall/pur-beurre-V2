@@ -11,7 +11,7 @@
     <title>Pure Beurre : L'aliment qui vous veut du bien </title>
 
     <!-- Bootstrap core CSS -->
-    <link href="{% static '/css/template.css' %}" rel="stylesheet">
+
     <link href="{% static '/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
     <!-- Custom fonts for this template -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
@@ -26,6 +26,7 @@
 
     <!-- Custom styles for this template -->
     <link href="{% static '/css/creative.css' %}" rel="stylesheet">
+    <link href="{% static '/css/template.css' %}" rel="stylesheet">
 
 </head>
 
@@ -72,13 +73,17 @@
 {% endblock %}
 </div>
 <footer>
-    <nav class="navbar navbar-expand-lg navbar-light" id="footerNav">
-        <div class="container">
-            <div
-                <a class="nav-link mr-auto " href="#">Mention légale</a>
-                <a class="nav-link ml-auto " href="#">Contact</a>
-            </div>
+     <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light justify-content-between" id="footerNav">
+
+
+
+                <a class="nav-link" href='#'>Mention légale</a>
+                <a class="nav-link  " href="#">Contact</a>
+
+
     </nav>
+         </div>
 </footer>
 
 <!-- Bootstrap core JavaScript -->
