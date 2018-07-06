@@ -10,6 +10,7 @@ from .forms import research_product_form
 from django.views.generic import ListView, DetailView
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
+
 def index(request):
 
     return render(request, 'index.html')
