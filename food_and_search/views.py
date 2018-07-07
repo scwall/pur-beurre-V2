@@ -6,7 +6,6 @@ from django.shortcuts import render, redirect
 from django.template import loader
 from django.core.paginator import Paginator
 from food_and_search.models import Categorie, Product
-from .forms import research_product_form
 from django.views.generic import ListView, DetailView
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
@@ -24,7 +23,6 @@ def save_product(request):
     products_paginator = paginator.get_page(number=page)
     context = {'products': products_paginator}
     if request.method == 'POST':
-        print('test')
         current_user = request.user
         id_product = int(request.POST['product_form'])
         product = Product.objects.get(id=id_product)
