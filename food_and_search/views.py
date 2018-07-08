@@ -33,6 +33,7 @@ def save_product(request):
     return render(request, 'save_product.html', context)
 
 def result(request):
+
     product_cleaned = str(request.GET['product'])
     if product_cleaned.isdigit() == False:
         request.session['product_session'] = product_cleaned
