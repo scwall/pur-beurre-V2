@@ -2,6 +2,7 @@
 
 {% load static %}
 {% block context %}
+
 <header class="masthead text-center text-white d-flex">
 
 
@@ -13,18 +14,29 @@
                     <div class="row top-buffer" >
                 {% endif %}
                 <div class="col-lg-4 text-center">
-                    <a href="/detailproduct/{{ product.id }}/"><img  src="{{ product.link_picture }}" height="150" width="150" class="img-fluid"> </a>
-                    <h4>{{ product.name }}</h4>
-                            <form class="spacer" action="" method="post">
+                    <div class="row">
+                    <div class="col-lg-8 text-lg-right ">
+                    <a href="/detailproduct/{{ product.id }}/"> <img src="{{ product.link_picture }}" class="img-fluid">
+                    </a>
+                    </div>
+                    <div class="col-lg-4 text-lg-left">
+                       <p style="font-size:2rem;">
+                        <span class="badge badge-pill badge-primary">{{ product.nutrition_grade }}</span>
+                       </p>
+                    </div>
+                </div>
+                            <form action="" method="post">
                                 {% csrf_token %}
                                 <input name="product_form" value="{{ product.id }}" type="hidden">
-                                <button type="submit"> <i class="fa fa-floppy-o" aria-hidden="true"> supprimer </i> </button>
+                                <button class="btn btn-primary" type="submit" > <i class="fa fa-floppy-o" aria-hidden="true"> supprimer </i> </button>
 
                             </form>
 
 
                             {% if id_product == product.id %}
-                                {{ save_product }}
+                                 <div class="alert alert-success alert-dismissible">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong> {{ save_product }} </strong> </div>
                             {% endif %}
 
                 </div>
@@ -45,8 +57,8 @@
     </div>
     </div>
       </div>
-
 </header>
+
 
 {% endblock %}
 

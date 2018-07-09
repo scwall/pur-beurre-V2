@@ -6,8 +6,8 @@ from django.contrib.auth.models import User
 
 class ProductTestCase(TestCase):
     def setUp(self):
-        Categorie.objects.create(name='fruit',id_category='fruit_id')
-        Product.objects.create(name="pomme",
+        self.fruit = Categorie.objects.create(name='fruit',id_category='fruit_id')
+        self.pomme = Product.objects.create(name="pomme",
                                description="une pomme",
                                nutrition_grade='a',
                                saturated_fat_100g='9.9',
@@ -15,7 +15,7 @@ class ProductTestCase(TestCase):
                                energy_100g='9.9',
                                sugars_100g='9.9',
                                sodium_100g='9.9')
-        Product.objects.create(name="poire",
+        self.poire = Product.objects.create(name="poire",
                                description="une poire",
                                nutrition_grade='a',
                                saturated_fat_100g='9.9',
@@ -23,7 +23,7 @@ class ProductTestCase(TestCase):
                                energy_100g='9.9',
                                sugars_100g='9.9',
                                sodium_100g='9.9')
-        Product.objects.create(name="bananne",
+        self.bananne = Product.objects.create(name="bananne",
                                description="une bananne",
                                nutrition_grade='a',
                                saturated_fat_100g='9.9',
@@ -31,7 +31,7 @@ class ProductTestCase(TestCase):
                                energy_100g='9.9',
                                sugars_100g='9.9',
                                sodium_100g='9.9')
-        Product.objects.create(name="cerise",
+        self.cerise = Product.objects.create(name="cerise",
                                description="une cerise",
                                nutrition_grade='a',
                                saturated_fat_100g='9.9',
@@ -39,7 +39,7 @@ class ProductTestCase(TestCase):
                                energy_100g='9.9',
                                sugars_100g='9.9',
                                sodium_100g='9.9')
-        Product.objects.create(name="groseille",
+        self.groseille = Product.objects.create(name="groseille",
                                description="une groseille",
                                nutrition_grade='a',
                                saturated_fat_100g='9.9',
@@ -47,7 +47,7 @@ class ProductTestCase(TestCase):
                                energy_100g='9.9',
                                sugars_100g='9.9',
                                sodium_100g='9.9')
-        Product.objects.create(name="mangue",
+        self.mangue = Product.objects.create(name="mangue",
                                description="une mangue",
                                nutrition_grade='a',
                                saturated_fat_100g='9.9',
@@ -55,7 +55,7 @@ class ProductTestCase(TestCase):
                                energy_100g='9.9',
                                sugars_100g='9.9',
                                sodium_100g='9.9')
-        Product.objects.create(name="ananas",
+        self.ananas = Product.objects.create(name="ananas",
                                description="un ananas",
                                nutrition_grade='a',
                                saturated_fat_100g='9.9',
@@ -63,8 +63,16 @@ class ProductTestCase(TestCase):
                                energy_100g='9.9',
                                sugars_100g='9.9',
                                sodium_100g='9.9')
+        self.pomme.categorie.add(self.fruit)
+        self.ananas.categorie.add(self.fruit)
+        self.bananne.categorie.add(self.fruit)
+        self.cerise.categorie.add(self.fruit)
+        self.groseille.categorie.add(self.fruit)
+        self.mangue.categorie.add(self.fruit)
+        self.poire.categorie.add(self.fruit)
         self.client = Client()
         self.user = User.objects.create_user('foo', 'foo@bar.com', 'foo#')
+        self.client.login(username='foo', password='foo#')
     def test_categorie(self):
         categorie = Categorie.objects.get(id_category='fruit_id')
         self.assertEqual(categorie.id_category, 'fruit_id')
@@ -83,20 +91,21 @@ class ProductTestCase(TestCase):
 
 
     def test_index(self):
-        """
-        If no questions exist, an appropriate message is displayed.
-        """
         response = self.client.get(reverse('food_and_search:index'))
         self.assertEqual(response.status_code, 200)
     def test_result(self):
         response = self.client.get('/result/',data={'product':'pomme'})
         self.assertEqual(response.status_code, 200)
-
+    def test_result_raise_error(self):
+        response = self.client.get('/result/', data={'product': 'pommier'})
+        self.assertEqual(response.status_code, 404)
+    def test_save_result_product(self):
+        response = self.client.post("/result/?product=pomme", data={'product_form':'1'},content_type="application/x-www-form-urlencoded",follow=True)
 
     def test_saveproduct(self):
-        self.client.login(username='foo', password='foo#')
         response = self.client.get(reverse('food_and_search:save_product'))
         self.assertEqual(response.status_code, 200)
+
 
 
 

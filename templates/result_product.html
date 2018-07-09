@@ -22,19 +22,29 @@
                         <div class="row top-buffer">
                     {% endif %}
                 <div class="col-lg-4 text-center">
+                <div class="row">
+                    <div class="col-lg-8 text-lg-right ">
                     <a href="/detailproduct/{{ product.id }}/"> <img src="{{ product.link_picture }}" class="img-fluid">
                     </a>
-                    <i> {{ product.nutrition_grade }}</i>
+                    </div>
+                    <div class="col-lg-4 text-lg-left">
+                       <p style="font-size:2rem;">
+                        <span class="badge badge-pill badge-primary">{{ product.nutrition_grade }}</span>
+                       </p>
+                    </div>
+                </div>
+
                     <h4>{{ product.name }}</h4>
                     <form class="spacer" action="" method="post">
                         {% csrf_token %}
                         <input name="product_form" value="{{ product.id }}" type="hidden">
-                        <button type="submit"><i class="fa fa-floppy-o" aria-hidden="true"> sauvegarder </i></button>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"> sauvegarder </i></button>
 
                     </form>
-
                     {% if id_product == product.id %}
-                        {{ save_product }}
+                        <div class="alert alert-success alert-dismissible">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong> {{ save_product }} </strong> </div>
                     {% endif %}
 
                 </div>

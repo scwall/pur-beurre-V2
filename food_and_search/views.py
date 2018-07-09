@@ -47,7 +47,6 @@ def result(request):
 
     else:
         raise Http404(product_cleaned)
-        # return render(request, 'result_product.html', context)
     if request.method == 'POST':
         if request.user.is_authenticated:
             current_user = request.user
