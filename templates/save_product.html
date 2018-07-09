@@ -25,16 +25,18 @@
                        </p>
                     </div>
                 </div>
-                            <form id="target" action="" method="post">
+                            <form action="" method="post">
                                 {% csrf_token %}
                                 <input name="product_form" value="{{ product.id }}" type="hidden">
-                                <button type="submit" > <i class="fa fa-floppy-o" aria-hidden="true"> supprimer </i> </button>
+                                <button class="btn btn-primary" type="submit" > <i class="fa fa-floppy-o" aria-hidden="true"> supprimer </i> </button>
 
                             </form>
-                <div id="target1"></div>
+
 
                             {% if id_product == product.id %}
-                                {{ save_product }}
+                                 <div class="alert alert-success alert-dismissible">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong> {{ save_product }} </strong> </div>
                             {% endif %}
 
                 </div>
