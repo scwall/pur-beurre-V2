@@ -19,10 +19,29 @@
   -o-background-size: cover;
   background-size: cover;
 }
-[class*="col-"], footer {
-  background-color: lightgreen;
-  border: 2px solid black;
-  border-radius: 6px;
-  line-height: 40px;
-  text-align: center;
+/*[class*="col-"], footer {*/
+  /*background-color: lightgreen;*/
+  /*border: 2px solid black;*/
+  /*border-radius: 6px;*/
+  /*line-height: 40px;*/
+  /*text-align: center;*/
+/*}*/
+.text-color-theme {
+  background-color: #E8A75D ;
+  border-radius:1.5rem;
+  color: #C45525;
+}
+.link-color-theme{
+    background-color: #E8A75D ;
+  border-radius:1.5rem;
+  color: #C45525;
+
+}
+
+.badge-color-theme {
+    color: #C45525;
+    background-color: #E8A75D;
+}
+.image-color-theme {
+    border-radius: 1rem;
 }

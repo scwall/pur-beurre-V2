@@ -6,12 +6,14 @@ app_name = 'food_and_search'
 urlpatterns = [
     path('', views.index, name='index'),
     path('saveproduct/', views.save_product, name='save_product'),
-    re_path(r'^result/$', views.result, name='result'),
-    path('accounts/', include('django.contrib.auth.urls')),
     path('login/', auth_views.LoginView.as_view()),
-    path('logout/', auth_views.LogoutView.as_view()),
-    path('detailproduct/<int:pk>/', detail_product),
-    path('user/', views.user_account)
+    path('result/', views.result, name='result'),
+    path('accounts/', include('django.contrib.auth.urls'),name='accounts'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('signup/',views.signup,name='signup'),
+    path('detailproduct/<int:pk>/', detail_product,name='detailproduct'),
+    path('user/', views.user_account,name='user')
+
 
 ]
 

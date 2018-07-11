@@ -6,8 +6,8 @@
         <div class="container my-auto">
             <div class="row ">
                 <div class="col-lg-12 result-product-size center-block"
-                     style="background-image: url({{ detail_product.link_picture }}); background-position: center center;   background-size: cover;   background-repeat: no-repeat; ">
-                    <h4 style="margin-top: 40px;">{{ detail_product.name }} </h4>
+                     style="background-image: url({{ detail_product.link_picture }}); background-position: center center;   background-size: initial;   background-repeat: no-repeat; background-color: #0b0b0b; border-radius: 1rem; padding-bottom:15rem; ">
+                    <h4 >{{ detail_product.name }} </h4>
                 </div>
             </div>
         </div>
@@ -15,7 +15,7 @@
     <section>
         <div class="container jumbotron-fluid">
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-3  text-color-theme">
                     <h2> nutriscore </h2>
                     <div class="col-lg-12">
                         <p>
@@ -29,7 +29,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="col-lg-6 ml-auto">
+                <div class="col-lg-3 offset-3 ml-auto text-color-theme">
                     <h2> repères nutritionnels pour 100g </h2>
                     <div class="col-lg-12">
                         {% if detail_product.saturated_fat_100g != 0 %}
@@ -51,8 +51,8 @@
                 </div>
             </div>
         <div class="row">
-            <div class="col-lg-12">
-                <a href="{{ detail_product.link_http }}"> Voir la fiche d'openFoodFacts</a>
+            <div class="col-lg-6 offset-3 text-color-theme">
+                <a class="link-color-theme" href="{{ detail_product.link_http }}"> <h2>Voir la fiche d'openFoodFacts </h2></a>
             </div>
         </div>
         </div>

@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm , AuthenticationForm
 from django.contrib.auth.models import User
@@ -9,7 +10,7 @@ from food_and_search.models import Categorie, Product
 from django.views.generic import ListView, DetailView
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
-
+from django.contrib.auth.forms import UserCreationForm
 def index(request):
 
     return render(request, 'index.html')
@@ -33,32 +34,35 @@ def save_product(request):
     return render(request, 'save_product.html', context)
 
 def result(request):
-    product_cleaned = str(request.GET['product'])
-    if product_cleaned.isdigit() == False:
-        request.session['product_session'] = product_cleaned
-    product = Product.objects.filter(name__icontains=product_cleaned)
-    if product.exists():
-        categories = Categorie.objects.filter(products__id=product[0].id)
-        products = Product.objects.filter(categorie__in=categories).order_by('nutrition_grade')
-        paginator = Paginator(products, 6)
-        page = request.GET.get('product')
-        products_paginator = paginator.get_page(number=page)
-        context = {'products': products_paginator,'original_product': Product.objects.filter(name__icontains=request.session.get('product_session'))[0]}
-
+    product_cleaned = str(request.GET.get('product'))
+    if not product_cleaned:
+        raise Http404('Aucun produit demandé')
     else:
-        raise Http404(product_cleaned)
-    if request.method == 'POST':
-        if request.user.is_authenticated:
-            current_user = request.user
-            id_product = int(request.POST['product_form'])
-            product = Product.objects.get(id=id_product)
-            product.user_product.add(current_user)
-            context['save_product'] = 'Produit sauvegardé'
-            context['id_product'] = id_product
-        else:
-            return redirect('/login')
+        if product_cleaned.isdigit() == False:
+            request.session['product_session'] = product_cleaned
+        product = Product.objects.filter(name__icontains=product_cleaned)
+        if product.exists():
+            categories = Categorie.objects.filter(products__id=product[0].id)
+            products = Product.objects.filter(categorie__in=categories).order_by('nutrition_grade')
+            paginator = Paginator(products, 6)
+            page = request.GET.get('product')
+            products_paginator = paginator.get_page(number=page)
+            context = {'products': products_paginator,'original_product': Product.objects.filter(name__icontains=request.session.get('product_session'))[0]}
 
-    return render(request, 'result_product.html', context)
+        else:
+            raise Http404(product_cleaned)
+        if request.method == 'POST':
+            if request.user.is_authenticated:
+                current_user = request.user
+                id_product = int(request.POST['product_form'])
+                product = Product.objects.get(id=id_product)
+                product.user_product.add(current_user)
+                context['save_product'] = 'Produit sauvegardé'
+                context['id_product'] = id_product
+            else:
+                return redirect('/login')
+
+        return render(request, 'result_product.html', context)
 
 def detail_product(request, pk):
     product = get_object_or_404(Product,pk=pk)
@@ -69,3 +73,16 @@ def detail_product(request, pk):
 def user_account(request):
     return render(request,template_name='user_page.html')
 
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('/')
+    else:
+        form = UserCreationForm()
+    return render(request, 'signup.html', {'form': form})

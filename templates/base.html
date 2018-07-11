@@ -10,12 +10,13 @@
 
 
     <title>Pur Beurre : L'aliment qui vous veut du bien </title>
-    <link rel="icon" type="image/png" href="{% static 'img/logo_pur_beurre.png' %}" />
+    <link rel="icon" type="image/png" href="{% static 'img/logo_pur_beurre.png' %}"/>
     <!-- Bootstrap core CSS -->
 
     <link href="{% static '/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
     <!-- Custom fonts for this template -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+          integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous"/>
     <link href="{% static '/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
           rel='stylesheet' type='text/css'>
@@ -36,7 +37,8 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="#page-top"><img src="{% static 'img/logo_pur_beurre.png' %}" width="30px" height="30px"> Pur Beurre</a>
+        <a class="navbar-brand js-scroll-trigger" href="#page-top"><img src="{% static 'img/logo_pur_beurre.png' %}"
+                                                                        width="30px" height="30px"> Pur Beurre</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                 data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -44,20 +46,21 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-            <li class="nav-item" style="margin-right: 5rem" >
-                {% include 'research_form.html' %}
-            </li>
-                <li class="nav-item">
-                     <a class="nav-link" href="/user"> <i class="fa fa-user"></i> </a>
+                <li class="nav-item" style="margin-right: 5rem">
+                    {% include 'research_form.html' %}
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="/saveproduct/"><img src="{% static '/img/carrot.png' %}" height="30" width="30"></a>
+                    <a class="nav-link" href="{% url 'food_and_search:user' %}"> <i class="fa fa-user"></i> </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="{% url 'food_and_search:save_product' %}"><img src="{% static '/img/carrot.png' %}" height="30"
+                                                                   width="30"></a>
                 </li>
                 <li class="nav-item">
                     {% if user.is_authenticated %}
-                    <a class="nav-link" href="/logout"> <i class="fas fa-sign-out-alt"></i> </a>
+                        <a class="nav-link" href="{% url 'food_and_search:logout' %}"> <i class="fas fa-sign-out-alt"></i> </a>
                     {% else %}
-                        <a class="nav-link" href="/login"> <i class="fas fa-sign-in-alt"></i> </a>
+                        <a class="nav-link" href="{% url 'food_and_search:login' %}"> <i class="fas fa-sign-in-alt"></i> </a>
                     {% endif %}
 
                 </li>
@@ -70,21 +73,19 @@
     </div>
 </nav>
 <div class="background-other-page">
-{% block context %}
-{% endblock %}
+    {% block context %}
+    {% endblock %}
 </div>
 <footer>
-     <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light justify-content-between" id="footerNav">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light justify-content-between" id="footerNav">
+
+            <a class="nav-link" href='#'>Mention légale</a>
+            <a class="nav-link  " href="#">Contact</a>
 
 
-
-                <a class="nav-link" href='#'>Mention légale</a>
-                <a class="nav-link  " href="#">Contact</a>
-
-
-    </nav>
-         </div>
+        </nav>
+    </div>
 </footer>
 
 <!-- Bootstrap core JavaScript -->
