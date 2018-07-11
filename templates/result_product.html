@@ -37,9 +37,11 @@
                 </div>
 
                 <h4 class="text-color-theme">{{ product.name }}</h4>
-                <form class="spacer" action="" method="post">
+                <form class="space" action="" method="post">
                     {% csrf_token %}
                     <input name="product_form" value="{{ product.id }}" type="hidden">
+                    <input name="original_product" value="{{ original_product}}" type="hidden">
+
                     <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true">
                         sauvegarder </i></button>
 

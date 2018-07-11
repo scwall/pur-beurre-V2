@@ -106,7 +106,7 @@ class ProductTestCase(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_save_result_product(self):
-        response = self.client.post("/result/?product=pomme", data={'product_form': '1'},
+        response = self.client.post("/result/",{'product_form': '1'},
                                     content_type="application/x-www-form-urlencoded", follow=True)
 
     def test_saveproduct(self):

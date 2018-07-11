@@ -5,6 +5,7 @@ from django.core.paginator import Paginator
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
+from django.urls import reverse
 
 from food_and_search.models import Categorie, Product
 
@@ -33,36 +34,40 @@ def save_product(request):
 
 
 def result(request):
-    product_cleaned = str(request.GET.get('product'))
-    if not product_cleaned:
-        raise Http404('Aucun produit demandé')
-    else:
-        if product_cleaned.isdigit() == False:
-            request.session['product_session'] = product_cleaned
-        product = Product.objects.filter(name__icontains=product_cleaned)
-        if product.exists():
-            categories = Categorie.objects.filter(products__id=product[0].id)
-            products = Product.objects.filter(categorie__in=categories).order_by('nutrition_grade')
-            paginator = Paginator(products, 6)
-            page = request.GET.get('product')
-            products_paginator = paginator.get_page(number=page)
-            context = {'products': products_paginator, 'original_product':
-                Product.objects.filter(name__icontains=request.session.get('product_session'))[0]}
+    if request.method == 'GET':
+        product_cleaned = request.GET.get('product')
 
+        if product_cleaned is None:
+            print('test')
+            raise Http404('Aucun produit demandé')
         else:
-            raise Http404(product_cleaned)
-        if request.method == 'POST':
-            if request.user.is_authenticated:
-                current_user = request.user
-                id_product = int(request.POST['product_form'])
-                product = Product.objects.get(id=id_product)
-                product.user_product.add(current_user)
-                context['save_product'] = 'Produit sauvegardé'
-                context['id_product'] = id_product
-            else:
-                return redirect('/login')
+            product = Product.objects.filter(name__icontains=product_cleaned)
+            if product.exists():
+                categories = Categorie.objects.filter(products__id=product[0].id)
+                products = Product.objects.filter(categorie__in=categories).order_by('nutrition_grade')
+                paginator = Paginator(products, 6)
+                page = request.GET.get('product')
+                products_paginator = paginator.get_page(number=page)
+                context = {'products': products_paginator, 'original_product':product_cleaned}
 
+            else:
+                raise Http404(product_cleaned)
         return render(request, 'result_product.html', context)
+    if request.method == 'POST':
+        context = {}
+        if request.user.is_authenticated:
+            current_user = request.user
+            id_product = int(request.POST.get('product_form'))
+            print(id_product)
+            product = Product.objects.get(id=id_product)
+            product.user_product.add(current_user)
+            context['save_product'] = 'Produit sauvegardé'
+            context['id_product'] = id_product
+            print('post methode')
+        else:
+            return redirect('/login')
+
+        return redirect(reverse('food_and_search:result')+ '?product={}'.format(request.POST['original_product']))
 
 
 def detail_product(request, pk):
