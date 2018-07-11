@@ -53,14 +53,17 @@
                     <a class="nav-link" href="{% url 'food_and_search:user' %}"> <i class="fa fa-user"></i> </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="{% url 'food_and_search:save_product' %}"><img src="{% static '/img/carrot.png' %}" height="30"
-                                                                   width="30"></a>
+                    <a class="nav-link " href="{% url 'food_and_search:save_product' %}"><img
+                            src="{% static '/img/carrot.png' %}" height="30"
+                            width="30"></a>
                 </li>
                 <li class="nav-item">
                     {% if user.is_authenticated %}
-                        <a class="nav-link" href="{% url 'food_and_search:logout' %}"> <i class="fas fa-sign-out-alt"></i> </a>
+                        <a class="nav-link" href="{% url 'food_and_search:logout' %}"> <i
+                                class="fas fa-sign-out-alt"></i> </a>
                     {% else %}
-                        <a class="nav-link" href="{% url 'food_and_search:login' %}"> <i class="fas fa-sign-in-alt"></i> </a>
+                        <a class="nav-link" href="{% url 'food_and_search:login' %}"> <i class="fas fa-sign-in-alt"></i>
+                        </a>
                     {% endif %}
 
                 </li>

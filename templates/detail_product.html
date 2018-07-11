@@ -7,7 +7,7 @@
             <div class="row ">
                 <div class="col-lg-12 result-product-size center-block"
                      style="background-image: url({{ detail_product.link_picture }}); background-position: center center;   background-size: initial;   background-repeat: no-repeat; background-color: #0b0b0b; border-radius: 1rem; padding-bottom:15rem; ">
-                    <h4 >{{ detail_product.name }} </h4>
+                    <h4>{{ detail_product.name }} </h4>
                 </div>
             </div>
         </div>
@@ -36,25 +36,26 @@
                             <p> Gras saturé : {{ detail_product.saturated_fat_100g }} </p>
                         {% endif %}
                         {% if detail_product.carbohydrates_100g != 0 %}
-                            <p>  Glucide : {{ detail_product.carbohydrates_100g }} </p>
+                            <p> Glucide : {{ detail_product.carbohydrates_100g }} </p>
                         {% endif %}
                         {% if detail_product.energy_100g != 0 %}
                             <p> énergie : {{ detail_product.energy_100g }} </p>
                         {% endif %}
                         {% if detail_product.sugars_100g != 0 %}
-                           <p> Sucre : {{ detail_product.sugars_100g }}</p>
+                            <p> Sucre : {{ detail_product.sugars_100g }}</p>
                         {% endif %}
                         {% if detail_product.sodium_100g != 0 %}
-                          <p> Sel : {{ detail_product.sodium_100g }}</p>
+                            <p> Sel : {{ detail_product.sodium_100g }}</p>
                         {% endif %}
                     </div>
                 </div>
             </div>
-        <div class="row">
-            <div class="col-lg-6 offset-3 text-color-theme">
-                <a class="link-color-theme" href="{{ detail_product.link_http }}"> <h2>Voir la fiche d'openFoodFacts </h2></a>
+            <div class="row">
+                <div class="col-lg-6 offset-3 text-color-theme">
+                    <a class="link-color-theme" href="{{ detail_product.link_http }}"><h2>Voir la fiche
+                        d'openFoodFacts </h2></a>
+                </div>
             </div>
-        </div>
         </div>
     </section>
 

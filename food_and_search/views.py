@@ -1,19 +1,17 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm , AuthenticationForm
-from django.contrib.auth.models import User
-from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.shortcuts import render, redirect
-from django.template import loader
-from django.core.paginator import Paginator
-from food_and_search.models import Categorie, Product
-from django.views.generic import ListView, DetailView
-from django.shortcuts import get_object_or_404
-from django.utils.decorators import method_decorator
 from django.contrib.auth.forms import UserCreationForm
-def index(request):
+from django.core.paginator import Paginator
+from django.http import Http404
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render, redirect
 
+from food_and_search.models import Categorie, Product
+
+
+def index(request):
     return render(request, 'index.html')
+
 
 @login_required(login_url='/login/')
 def save_product(request):
@@ -33,6 +31,7 @@ def save_product(request):
 
     return render(request, 'save_product.html', context)
 
+
 def result(request):
     product_cleaned = str(request.GET.get('product'))
     if not product_cleaned:
@@ -47,7 +46,8 @@ def result(request):
             paginator = Paginator(products, 6)
             page = request.GET.get('product')
             products_paginator = paginator.get_page(number=page)
-            context = {'products': products_paginator,'original_product': Product.objects.filter(name__icontains=request.session.get('product_session'))[0]}
+            context = {'products': products_paginator, 'original_product':
+                Product.objects.filter(name__icontains=request.session.get('product_session'))[0]}
 
         else:
             raise Http404(product_cleaned)
@@ -64,23 +64,27 @@ def result(request):
 
         return render(request, 'result_product.html', context)
 
+
 def detail_product(request, pk):
-    product = get_object_or_404(Product,pk=pk)
-    return render(request,template_name='detail_product.html',context={'detail_product':product} )
+    product = get_object_or_404(Product, pk=pk)
+    return render(request, template_name='detail_product.html', context={'detail_product': product})
 
 
 @login_required(login_url='/login/')
 def user_account(request):
-    return render(request,template_name='user_page.html')
+    return render(request, template_name='user_page.html')
+
 
 def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
+            user_tmp = form.save()
+            user_tmp.save()
+            tmp_username = form.cleaned_data.get('username')
+            tmp_password = form.cleaned_data.get('password')
+
+            user = authenticate(username=tmp_username, password=tmp_password)
             login(request, user)
             return redirect('/')
     else:

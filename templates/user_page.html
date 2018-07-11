@@ -3,27 +3,27 @@
 {% load static %}
 {% block context %}
 
-        <header class="masthead text-center text-white d-flex">
-            <div class="container">
-                <div class="row">
-                    <div class="col align-self-center">
-                        <h1 >Bienvenue </h1>
-                        <h2> {{ user.get_username }}</h2>
+    <header class="masthead text-center text-white d-flex">
+        <div class="container">
+            <div class="row">
+                <div class="col align-self-center text-color-theme">
+                    <h1>Bienvenue </h1>
+                    <h2> {{ user.get_username }}</h2>
 
-                    </div>
-                </div>
-                <div class="row top-buffer">
-                    <div class="col align-self-center">
-                        <h1> Adresse email</h1>
-                        <h2> {{ user.email }} </h2>
-                    </div>
                 </div>
             </div>
-        </header>
-        <section>
-            <div class="container ">
-
+            <div class="row top-buffer">
+                <div class="col align-self-center">
+                    <h1> Adresse email</h1>
+                    <h2> {{ user.email }} </h2>
+                </div>
             </div>
-        </section>
+        </div>
+    </header>
+    <section>
+        <div class="container ">
+
+        </div>
+    </section>
 {% endblock %}
 

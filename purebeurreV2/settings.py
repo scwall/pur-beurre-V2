@@ -17,7 +17,6 @@ from django.urls import reverse_lazy
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
@@ -28,7 +27,6 @@ SECRET_KEY = 'f53sx$vgnjd76q#s3gt&0j09ke+1uk#!-6j+)qokiiey-m-6&f'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -75,15 +73,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'purebeurreV2.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql', # on utilise l'adaptateur postgresql
-        'NAME': 'purebeurre', # le nom de notre base de donnees creee precedemment
-        'USER': 'purebeurre', # attention : remplacez par votre nom d'utilisateur
+        'ENGINE': 'django.db.backends.postgresql',  # on utilise l'adaptateur postgresql
+        'NAME': 'purebeurre',  # le nom de notre base de donnees creee precedemment
+        'USER': 'purebeurre',  # attention : remplacez par votre nom d'utilisateur
         'PASSWORD': 'purebeurre##',
         'HOST': 'localhost',
         'PORT': '5432',
@@ -108,7 +105,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
@@ -121,7 +117,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/

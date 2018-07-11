@@ -17,6 +17,7 @@ from django.conf import settings
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
+
 urlpatterns = [
     path('', include('food_and_search.urls')),
     path('admin/', admin.site.urls),
@@ -24,6 +25,7 @@ urlpatterns = [
 ]
 if settings.DEBUG:
     import debug_toolbar
+
     urlpatterns = [
-        url(r'^__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns
+                      url(r'^__debug__/', include(debug_toolbar.urls)),
+                  ] + urlpatterns

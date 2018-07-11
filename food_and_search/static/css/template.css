@@ -27,8 +27,8 @@
   /*text-align: center;*/
 /*}*/
 .text-color-theme {
-  background-color: #E8A75D ;
-  border-radius:1.5rem;
+  background-color: rgba(232, 167, 93, 0.96) ;
+  border-radius:1.2rem;
   color: #C45525;
 }
 .link-color-theme{
