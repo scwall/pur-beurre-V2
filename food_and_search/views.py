@@ -35,39 +35,43 @@ def save_product(request):
 
 def result(request):
     if request.method == 'GET':
-        product_cleaned = request.GET.get('product')
-
-        if product_cleaned is None:
-            print('test')
+        name_product_search = request.GET.get('product')
+        save_product = request.GET.get('product-save')
+        if save_product is not None:
+            save_product = int(save_product)
+        if name_product_search is None:
             raise Http404('Aucun produit demandé')
         else:
-            product = Product.objects.filter(name__icontains=product_cleaned)
+            product = Product.objects.filter(name__icontains=name_product_search)
+
             if product.exists():
+                original_product = products__id = product[0]
                 categories = Categorie.objects.filter(products__id=product[0].id)
                 products = Product.objects.filter(categorie__in=categories).order_by('nutrition_grade')
                 paginator = Paginator(products, 6)
                 page = request.GET.get('product')
                 products_paginator = paginator.get_page(number=page)
-                context = {'products': products_paginator, 'original_product':product_cleaned}
+                context = {'products': products_paginator, 'name_product_search': name_product_search,
+                           'original_product': original_product, 'id_product': save_product  }
 
             else:
-                raise Http404(product_cleaned)
+                raise Http404(name_product_search)
         return render(request, 'result_product.html', context)
     if request.method == 'POST':
         context = {}
         if request.user.is_authenticated:
             current_user = request.user
             id_product = int(request.POST.get('product_form'))
-            print(id_product)
+            name_product_search = request.POST['name_product_search']
             product = Product.objects.get(id=id_product)
             product.user_product.add(current_user)
-            context['save_product'] = 'Produit sauvegardé'
             context['id_product'] = id_product
-            print('post methode')
         else:
             return redirect('/login')
 
-        return redirect(reverse('food_and_search:result')+ '?product={}'.format(request.POST['original_product']))
+        return redirect(
+            reverse('food_and_search:result') + '?product={name_product}&product-save={product_save}'.format(
+                product_save=id_product, name_product= name_product_search))
 
 
 def detail_product(request, pk):
