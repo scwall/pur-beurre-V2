@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from food_and_search.models import Categorie, Product
+from food_and_search.models import Categorie, Product, SignUpForm
 
 
 def index(request):
@@ -40,7 +40,7 @@ def result(request):
         if save_product is not None:
             save_product = int(save_product)
         if name_product_search is None:
-            raise Http404('Aucun produit demandé')
+            raise Http404('Aucun produit demandé !')
         else:
             product = Product.objects.filter(name__icontains=name_product_search)
 
@@ -52,10 +52,11 @@ def result(request):
                 page = request.GET.get('product')
                 products_paginator = paginator.get_page(number=page)
                 context = {'products': products_paginator, 'name_product_search': name_product_search,
-                           'original_product': original_product, 'id_product': save_product  }
+                           'original_product': original_product, 'id_product': save_product}
 
             else:
-                raise Http404(name_product_search)
+                raise Http404(
+                    "le produit {product} n'existe pas dans la base de données".format(product=name_product_search))
         return render(request, 'result_product.html', context)
     if request.method == 'POST':
         context = {}
@@ -71,7 +72,7 @@ def result(request):
 
         return redirect(
             reverse('food_and_search:result') + '?product={name_product}&product-save={product_save}'.format(
-                product_save=id_product, name_product= name_product_search))
+                product_save=id_product, name_product=name_product_search))
 
 
 def detail_product(request, pk):
@@ -86,16 +87,17 @@ def user_account(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
             user_tmp = form.save()
             user_tmp.save()
             tmp_username = form.cleaned_data.get('username')
-            tmp_password = form.cleaned_data.get('password')
-
+            print(tmp_username)
+            tmp_password = form.cleaned_data.get('password1')
+            print(tmp_password)
             user = authenticate(username=tmp_username, password=tmp_password)
             login(request, user)
             return redirect('/')
     else:
-        form = UserCreationForm()
+        form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
