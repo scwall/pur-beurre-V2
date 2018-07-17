@@ -58,19 +58,18 @@
             {% endif %}
 
             {% endfor %}
-            <div class="row justify-content-between">
+            <div class="row justify-content-between ">
 
                 {% if products.has_previous %}
                     <div class="col-lg-2 offset-1 ">
-                        <a href="?product={{ products.previous_page_number }}">Précédent</a>
+                        <a class="link-color-theme" href="?product={{ products.previous_page_number }}">Précédent</a>
                     </div>
                 {% endif %}
                 {% if products.has_next %}
                     <div class="col-lg-2 offset-1  ">
-                        <a href="?product={{ products.next_page_number }}">Suivant</a>
+                        <a class="link-color-theme" href="?product={{ products.next_page_number }}">Suivant</a>
                     </div>
                 {% endif %}
-
             </div>
         </div>
     </section>

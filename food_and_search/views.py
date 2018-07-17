@@ -16,19 +16,19 @@ def index(request):
 
 @login_required(login_url='/login/')
 def save_product(request):
+    page = 0
     current_user = request.user
     user_products = Product.objects.filter(user_product__exact=current_user.id)
     paginator = Paginator(user_products, 6)
-    page = request.GET.get('product')
+    if request.method == 'GET':
+        page = request.GET.get('product')
     products_paginator = paginator.get_page(number=page)
     context = {'products': products_paginator}
     if request.method == 'POST':
         current_user = request.user
-        id_product = int(request.POST['product_form'])
+        id_product = request.POST.get('product_form')
         product = Product.objects.get(id=id_product)
         product.user_product.remove(current_user)
-        context['save_product'] = 'Produit supprimé '
-        context['id_product'] = id_product
 
     return render(request, 'save_product.html', context)
 
@@ -62,11 +62,11 @@ def result(request):
         context = {}
         if request.user.is_authenticated:
             current_user = request.user
-            id_product = int(request.POST.get('product_form'))
+            id_product = request.POST.get('product_form')
             name_product_search = request.POST['name_product_search']
             product = Product.objects.get(id=id_product)
             product.user_product.add(current_user)
-            context['id_product'] = id_product
+            context['id_product'] = int(id_product)
         else:
             return redirect('/login')
 
