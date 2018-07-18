@@ -29,8 +29,12 @@ if os.environ.get('ENV') == 'PRODUCTION':
     DEBUG = False
 else:
     DEBUG = True
+if os.environ.get('ENV') == 'PRODUCTION':
+    ALLOWED_HOSTS = ['pur-beurre-scwalito.herokuapp.com']
 
-ALLOWED_HOSTS = ['pur-beurre-scwalito.herokuapp.com']
+else:
+    ALLOWED_HOSTS = ['127.0.0.1','localhost']
+
 
 # Application definition
 
