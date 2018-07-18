@@ -140,11 +140,11 @@ if os.environ.get('ENV') == 'PRODUCTION':
         os.path.join('food_and_search', 'static'),
     )
 
-if os.environ.get('ENV') == 'PRODUCTION':
-    # ...
-    # Simplified static file serving.
-    # https://warehouse.python.org/project/whitenoise/
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# if os.environ.get('ENV') == 'PRODUCTION':
+#     # ...
+#     # Simplified static file serving.
+#     # https://warehouse.python.org/project/whitenoise/
+#     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/user'
 LOGOUT_REDIRECT_URL = '/'
