@@ -56,3 +56,6 @@ venv/
 *.sqlite3
 #bin function
 food_and_search/bin_functions.py
+/.coverage
+*.pyc
+.idea
