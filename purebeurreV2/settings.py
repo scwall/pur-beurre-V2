@@ -44,8 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'food_and_search.apps.FoodAndSearchConfig',
     'debug_toolbar',
+    'food_and_search.app.FoodAndSearchConfig',
 ]
 
 MIDDLEWARE = [

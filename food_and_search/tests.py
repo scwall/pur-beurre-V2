@@ -1,11 +1,13 @@
-from django.contrib.auth.models import User
+from unittest.mock import patch
 from django.test import TestCase, Client
 from django.urls import reverse
-
+from django.core.management import call_command
+from django.test import TestCase
+from food_and_search.management.commands.managedatabase import Command
+import httpretty
 # Create your tests here.
 from food_and_search.models import Product, Categorie
-
-
+from django.contrib.auth.models import User
 class ProductTestCase(TestCase):
     def setUp(self):
         self.fruit = Categorie.objects.create(name='fruit', id_category='fruit_id')
@@ -145,6 +147,13 @@ class ProductTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
         user = User.objects.get(username='Foo2')
         self.assertIsNotNone(user)
+
+class CommandsTestCase(TestCase):
+
+    def test_mycommand(self):
+        args = ['--chargedatabase']
+        opts = {}
+        call_command('managedatabase', *args, **opts)
 
 
 
