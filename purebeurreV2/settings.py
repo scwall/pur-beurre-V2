@@ -33,19 +33,18 @@ if os.environ.get('ENV') == 'PRODUCTION':
     ALLOWED_HOSTS = ['pur-beurre-scwalito.herokuapp.com']
 
 else:
-    ALLOWED_HOSTS = ['127.0.0.1','localhost']
-
+    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 # Application definition
 
 INSTALLED_APPS = [
+    'food_and_search.apps.FoodAndSearchConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'food_and_search.apps.FoodAndSearchConfig',
     'debug_toolbar',
 ]
 
@@ -58,7 +57,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'purebeurreV2.urls'
@@ -140,11 +138,6 @@ if os.environ.get('ENV') == 'PRODUCTION':
         os.path.join('food_and_search', 'static'),
     )
 
-# if os.environ.get('ENV') == 'PRODUCTION':
-#     # ...
-#     # Simplified static file serving.
-#     # https://warehouse.python.org/project/whitenoise/
-#     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/user'
 LOGOUT_REDIRECT_URL = '/'

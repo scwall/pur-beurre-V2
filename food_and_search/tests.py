@@ -141,8 +141,10 @@ class ProductTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.client.logout()
     def test_signup_account(self):
-        response = self.client.post("/signup/", {'username': 'Foo2', 'password': 'Foo12345','password1':'Foo12345','email':'foo@baar.com'})
-        self.assertEqual(response.status_code, 200)
+        response = self.client.post("/signup/", {'username': 'Foo2', 'password1': 'Foo12345','password2':'Foo12345','email':'foo@baar.com'})
+        self.assertEqual(response.status_code, 302)
+        user = User.objects.get(username='Foo2')
+        self.assertIsNotNone(user)
 
 
 

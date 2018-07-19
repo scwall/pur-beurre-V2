@@ -41,6 +41,7 @@
                     {% csrf_token %}
                     <input name="product_form" value="{{ product.id }}" type="hidden">
                     <input name="name_product_search" value="{{ name_product_search}}" type="hidden">
+                    <input name="page" value="{{ request.GET.page }}" type="hidden">
 
                     <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true">
                         sauvegarder </i></button>
@@ -62,12 +63,12 @@
 
                 {% if products.has_previous %}
                     <div class="col-lg-2 offset-1 ">
-                        <a class="link-color-theme" href="?product={{ products.previous_page_number }}">Précédent</a>
+                        <a class="link-color-theme" href="?product={{ name_product_search }}&page={{ products.previous_page_number }}">Précédent</a>
                     </div>
                 {% endif %}
                 {% if products.has_next %}
                     <div class="col-lg-2 offset-1  ">
-                        <a class="link-color-theme" href="?product={{ products.next_page_number }}">Suivant</a>
+                        <a class="link-color-theme" href="?product={{ name_product_search }}&page={{ products.next_page_number }}">Suivant</a>
                     </div>
                 {% endif %}
             </div>

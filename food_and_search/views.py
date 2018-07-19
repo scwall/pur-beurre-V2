@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.http import Http404
 from django.shortcuts import get_object_or_404
@@ -24,6 +25,8 @@ def save_product(request):
         page = request.GET.get('product')
     products_paginator = paginator.get_page(number=page)
     context = {'products': products_paginator}
+    if not products_paginator.has_next()  and paginator.count % 6 != 0 :
+        context['row'] = True
     if request.method == 'POST':
         current_user = request.user
         id_product = request.POST.get('product_form')
@@ -45,11 +48,11 @@ def result(request):
             product = Product.objects.filter(name__icontains=name_product_search)
 
             if product.exists():
-                original_product = products__id = product[0]
+                original_product = product[0]
                 categories = Categorie.objects.filter(products__id=product[0].id)
                 products = Product.objects.filter(categorie__in=categories).order_by('nutrition_grade')
                 paginator = Paginator(products, 6)
-                page = request.GET.get('product')
+                page = request.GET.get('page')
                 products_paginator = paginator.get_page(number=page)
                 context = {'products': products_paginator, 'name_product_search': name_product_search,
                            'original_product': original_product, 'id_product': save_product}
@@ -64,6 +67,7 @@ def result(request):
             current_user = request.user
             id_product = request.POST.get('product_form')
             name_product_search = request.POST['name_product_search']
+            page = request.POST.get('page')
             product = Product.objects.get(id=id_product)
             product.user_product.add(current_user)
             context['id_product'] = int(id_product)
@@ -71,8 +75,8 @@ def result(request):
             return redirect('/login')
 
         return redirect(
-            reverse('food_and_search:result') + '?product={name_product}&product-save={product_save}'.format(
-                product_save=id_product, name_product=name_product_search))
+            reverse('food_and_search:result') + '?product={name_product}&product-save={product_save}&page={page}'.format(
+                product_save=id_product, name_product=name_product_search, page=page))
 
 
 def detail_product(request, pk):
@@ -89,12 +93,10 @@ def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            user_tmp = form.save()
-            user_tmp.save()
+            form.save()
+
             tmp_username = form.cleaned_data.get('username')
-            print(tmp_username)
             tmp_password = form.cleaned_data.get('password1')
-            print(tmp_password)
             user = authenticate(username=tmp_username, password=tmp_password)
             login(request, user)
             return redirect('/')

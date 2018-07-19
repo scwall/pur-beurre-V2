@@ -3,7 +3,7 @@
 {% load static %}
 {% block context %}
     <section>
-    <h1>{{ products.paginator.page_range }}</h1>
+    <h1>{{ products.has_next}}</h1>
         <div class="container">
             {% for product in products %}
                 {% if  forloop.counter == 1 or forloop.counter|divisibleby:4 %}
@@ -42,9 +42,10 @@
             {% endif %}
 
             {% endfor %}
-         {% if products.paginator.page_range == 1 %}
-                {% endif %}
-            <div class="row justify-content-between ">
+         {% if row is True %}
+             </div>
+         {% endif %}
+            <div class="row justify-content-between" style="margin-top: 2rem">
 
                 {% if products.has_previous %}
                     <div class="col-lg-2 offset-1 ">
