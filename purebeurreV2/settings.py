@@ -38,13 +38,13 @@ else:
 # Application definition
 
 INSTALLED_APPS = [
-    'food_and_search.apps.FoodAndSearchConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'food_and_search.apps.FoodAndSearchConfig',
     'debug_toolbar',
 ]
 
@@ -57,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'purebeurreV2.urls'
