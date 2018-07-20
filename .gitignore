@@ -59,3 +59,9 @@ food_and_search/bin_functions.py
 /.coverage
 *.pyc
 .idea
+food_and_search/__pycache__/
+food_and_search/management/__pycache__/
+food_and_search/management/commands/__pycache__/
+food_and_search/migrations/
+htmlcov
+purebeurreV2/__pycache__/
