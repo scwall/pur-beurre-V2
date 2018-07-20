@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block context %}
+    <section>
+    <h1>{{ products.has_next}}</h1>
+        <div class="container">
+            {% for product in products %}
+                {% if  forloop.counter == 1 or forloop.counter|divisibleby:4 %}
+                    <div class="row top-buffer">
+                {% endif %}
+            <div class="col-lg-3 offset-1 text-center white-transparent">
+                <div class="row">
+                    <div class="col-lg-8 text-lg-right ">
+                        <a href="{% url 'food_and_search:detailproduct' pk=product.id %}"> <img
+                                class="image-color-theme" src="{{ product.link_picture }}"
+                                height="200rem" width="100rem">
+                        </a>
+                    </div>
+                    <div class="col-lg-4 text-lg-left">
+                        <p style="font-size:2rem;">
+                            <span class="badge badge-pill badge-primary badge-color-theme">{{ product.nutrition_grade }}</span>
+                        </p>
+                    </div>
+                </div>
+
+                <h4 class="text-color-theme">{{ product.name }}</h4>
+                <form class="space" action="" method="post">
+                    {% csrf_token %}
+                    <input name="product_form" value="{{ product.id }}" type="hidden">
+                    <input name="name_product_search" value="{{ name_product_search }}" type="hidden">
+
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true">
+                        supprimer </i></button>
+
+                </form>
+
+
+            </div>
+            {% if  forloop.counter|divisibleby:3 %}
+                </div>
+            {% endif %}
+
+            {% endfor %}
+         {% if row is True %}
+             </div>
+         {% endif %}
+            <div class="row justify-content-between" style="margin-top: 2rem">
+
+                {% if products.has_previous %}
+                    <div class="col-lg-2 offset-1 ">
+                        <a class="link-color-theme" href="?page={{ products.previous_page_number }}">Précédent</a>
+                    </div>
+                {% endif %}
+                {% if products.has_next %}
+                    <div class="col-lg-2 offset-1  ">
+                        <a class="link-color-theme" href="?page={{ products.next_page_number }}">Suivant</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+
+

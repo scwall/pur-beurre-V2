@@ -14,21 +14,26 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from django.urls import reverse_lazy
+import dj_database_url
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'f53sx$vgnjd76q#s3gt&0j09ke+1uk#!-6j+)qokiiey-m-6&f'
+SECRET_KEY = 'gjtd%4j^9pq1y108nwl!5ku#h4sd9-%xzi0ibhnn7@pyh5nkwk'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+if os.environ.get('ENV') == 'PRODUCTION':
+    DEBUG = False
+else:
+    DEBUG = True
+if os.environ.get('ENV') == 'PRODUCTION':
+    ALLOWED_HOSTS = ['pur-beurre-scwalito.herokuapp.com']
 
-ALLOWED_HOSTS = ['*']
-
+else:
+    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 # Application definition
 
@@ -39,7 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'food_and_search.apps.FoodAndSearchConfig'
+    'debug_toolbar',
+    'food_and_search.apps.FoodAndSearchConfig',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +56,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'purebeurreV2.urls'
@@ -73,21 +81,22 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'purebeurreV2.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql', # on utilise l'adaptateur postgresql
-        'NAME': 'purebeurre', # le nom de notre base de donnees creee precedemment
-        'USER': 'purebeurre', # attention : remplacez par votre nom d'utilisateur
+        'ENGINE': 'django.db.backends.postgresql',  # on utilise l'adaptateur postgresql
+        'NAME': 'purebeurre',  # le nom de notre base de donnees creee precedemment
+        'USER': 'purebeurre',  # attention : remplacez par votre nom d'utilisateur
         'PASSWORD': 'purebeurre##',
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
-
+if os.environ.get('ENV') == 'PRODUCTION':
+    db_from_env = dj_database_url.config(conn_max_age=500)
+    DATABASES['default'].update(db_from_env)
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
@@ -106,11 +115,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr-fr'
 
 TIME_ZONE = 'UTC'
 
@@ -120,9 +128,22 @@ USE_L10N = True
 
 USE_TZ = True
 
+if os.environ.get('ENV') == 'PRODUCTION':
+    # Static files settings
+    PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.0/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    STATIC_ROOT = os.path.join('static')
+
+    # Extra places for collectstatic to find static files.
+    STATICFILES_DIRS = (
+        os.path.join('food_and_search', 'static'),
+    )
+
 STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/user'
+LOGOUT_REDIRECT_URL = '/'
+INTERNAL_IPS = ['127.0.0.1']
+
+if os.environ.get('ENV') == 'PRODUCTION':
+    db_from_env = dj_database_url.config(conn_max_age=500)
+    DATABASES['default'].update(db_from_env)

@@ -6,10 +6,11 @@ import os
 import sys
 import time
 import requests
-from food_and_search.models import Categorie,Product
+from food_and_search.models import Categorie, Product
+
+
 class Command(BaseCommand):
     help = 'Use the command --chargedatabase, to load the database or use, for example --updatedatabase in a cron to update it'
-
 
     def add_arguments(self, parser):
 
@@ -30,7 +31,6 @@ class Command(BaseCommand):
         if options['charge_database']:
             self.stdout.write("charge database\n")
 
-
             def clr():
                 os.system('clr' if os.name == 'nt' else 'clear')
 
@@ -48,7 +48,7 @@ class Command(BaseCommand):
                 if int(categories['products']) > 10 and len(categories['name']) < 150 and str(
                         categories['name']).lower() != str(categories['id']).lower():
                     categorie_add = Categorie(name=categories['name'],
-                                                id_category=categories['id'])
+                                              id_category=categories['id'])
                     categorie_add.save()
                     count += 1
 
@@ -56,7 +56,7 @@ class Command(BaseCommand):
                     count += 1
 
                 self.stdout.write("\rCategory Recovery, " + str(percentage_calculation(count, total_count)) + "%" +
-                      " d'effectué(s)\r")
+                                  " d'effectué(s)\r")
                 sys.stdout.flush()
             self.stdout.write("\rRecovering successful categories\r")
             time.sleep(2)
@@ -98,25 +98,26 @@ class Command(BaseCommand):
                                     and 1 <= len(product['product_name_fr']) <= 100:
                                 try:
                                     add_product = Product(name=product['product_name_fr'],
-                                                       description=product['ingredients_text_fr'],
-                                                       nutrition_grade=product['nutrition_grades'],
-                                                       link_http=product['url'],
-                                                       link_picture = product['image_front_small_url'],
-                                                       saturated_fat_100g=product['nutriments']['saturated-fat_100g'],
-                                                       carbohydrates_100g=product['nutriments']['carbohydrates_100g'],
-                                                       energy_100g=product['nutriments']['energy_100g'],
-                                                       sugars_100g=product['nutriments']['sugars_100g'],
-                                                       sodium_100g=product['nutriments']['sodium_100g'],
+                                                          description=product['ingredients_text_fr'],
+                                                          nutrition_grade=product['nutrition_grades'],
+                                                          link_http=product['url'],
+                                                          link_picture=product['image_front_small_url'],
+                                                          saturated_fat_100g=product['nutriments'][
+                                                              'saturated-fat_100g'],
+                                                          carbohydrates_100g=product['nutriments'][
+                                                              'carbohydrates_100g'],
+                                                          energy_100g=product['nutriments']['energy_100g'],
+                                                          sugars_100g=product['nutriments']['sugars_100g'],
+                                                          sodium_100g=product['nutriments']['sodium_100g'],
 
-
-                                                       )
+                                                          )
                                     add_product.save()
-                                    for  categorie in product['categories_tags']:
-                                            try:
-                                                add_categorie = Categorie.objects.get(id_category=str(categorie))
-                                                add_product.categorie.add(add_categorie)
-                                            except:
-                                                add_product.delete()
+                                    for categorie in product['categories_tags']:
+                                        try:
+                                            add_categorie = Categorie.objects.get(id_category=str(categorie))
+                                            add_product.categorie.add(add_categorie)
+                                        except:
+                                            add_product.delete()
 
 
                                 except KeyError:
@@ -142,11 +143,13 @@ class Command(BaseCommand):
                         if article['final_page'] is True:
                             final_page = article['final_page']
 
-                self.stdout.write("\rProduct recovery, " + str(percentage_calculation(count, total_count)) + "%" + " done \r")
+                self.stdout.write(
+                    "\rProduct recovery, " + str(percentage_calculation(count, total_count)) + "%" + " done \r")
                 sys.stdout.flush()
                 range_list[0] += 20
                 range_list[1] += 20
-                self.stdout.write("\rProduct recovery, " + str(percentage_calculation(count, total_count)) + "%" + " done \r")
+                self.stdout.write(
+                    "\rProduct recovery, " + str(percentage_calculation(count, total_count)) + "%" + " done \r")
                 sys.stdout.flush()
 
         if options['update_database']:
