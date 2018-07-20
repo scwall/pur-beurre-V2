@@ -16,6 +16,5 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('detailproduct/<int:pk>/', detail_product, name='detailproduct'),
     path('user/', views.user_account, name='user'),
-    path('mention-legale/', TemplateView.as_view(template_name='mentionlegale.html'))
-
+    path('mention-legale/', TemplateView.as_view(template_name='legal_notice.html'), name='legalnotice')
 ]
