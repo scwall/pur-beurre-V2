@@ -35,7 +35,7 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-
+# Model form for signup user
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=254, label="Adresse email", required=True, )
 

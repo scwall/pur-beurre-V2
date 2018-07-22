@@ -10,11 +10,11 @@ from django.urls import reverse
 
 from food_and_search.models import Categorie, Product, SignUpForm
 
-
+# View for index.html
 def index(request):
     return render(request, 'index.html')
 
-
+# View for save_product.html login required for show save product
 @login_required(login_url='/login/')
 def save_product(request):
     current_user = request.user
@@ -34,7 +34,7 @@ def save_product(request):
 
     return render(request, 'save_product.html', context)
 
-
+# View for result product, using paginator for show products in many page
 def result(request):
     if request.method == 'GET':
         name_product_search = request.GET.get('product')

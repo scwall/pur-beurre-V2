@@ -13,30 +13,25 @@ class Command(BaseCommand):
     help = 'Use the command --chargedatabase, to load the database or use, for example --updatedatabase in a cron to update it'
 
     def add_arguments(self, parser):
-
+        # for arg for load database
         parser.add_argument(
             '--chargedatabase',
             action='store_true',
             dest='charge_database',
             help='To load the database or use',
         )
-        parser.add_argument(
-            '--updatedatabase',
-            action='store_true',
-            dest='update_database',
-            help='Update database ,for example updatedatabase in a cron to update it',
-        )
 
     def handle(self, *args, **options):
         if options['charge_database']:
             self.stdout.write("charge database\n")
-
+            #function to clear screen and calculate the progression percentage
             def clr():
                 os.system('clr' if os.name == 'nt' else 'clear')
 
             def percentage_calculation(count, total_count):
                 return int(100 * (count / total_count))
 
+            #Recovery the categories of openfoodfacts
             count = 0
             self.stdout.write("Login to openfoodfact website\n")
             categories_json = requests.get("https://fr.openfoodfacts.org/categories.json")
@@ -60,13 +55,15 @@ class Command(BaseCommand):
                 sys.stdout.flush()
             self.stdout.write("\rRecovering successful categories\r")
             time.sleep(2)
-            # recovery the products
+
+            # recovery products of the openfoodfacts
             self.stdout.write("\rProduct recovery\r")
             sys.stdout.flush()
             count = 0
             total_count = 0
             final_page = False
             range_list = [0, 20]
+
             while final_page is False:
                 list_page_for_pool = []
                 for link_page_add_list in range(*range_list):
@@ -75,6 +72,7 @@ class Command(BaseCommand):
 
                     list_page_for_pool.append(link)
 
+                # Function call in multiprocessing
                 def function_recovery_and_push(link_page):
                     count_and_end_page_return_all = {}
                     count_f = 0
@@ -135,6 +133,8 @@ class Command(BaseCommand):
                 p = Pool()
                 articles_list_all_pool = p.map(function_recovery_and_push, list_page_for_pool)
                 p.close()
+
+                # Browse list all articles recovery for count
                 for article in articles_list_all_pool:
                     if article['count'] != False and article['total_count'] != False:
                         count += article['count']

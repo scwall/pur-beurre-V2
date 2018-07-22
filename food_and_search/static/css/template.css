@@ -19,13 +19,6 @@
   -o-background-size: cover;
   background-size: cover;
 }
-/*[class*="col-"], footer {*/
-  /*background-color: lightgreen;*/
-  /*border: 2px solid black;*/
-  /*border-radius: 6px;*/
-  /*line-height: 40px;*/
-  /*text-align: center;*/
-/*}*/
 .text-color-theme {
   background-color: rgba(232, 167, 93, 0.96) ;
   border-radius:1.2rem;
@@ -38,7 +31,6 @@
     color: #C45525;
 
 }
-
 .badge-color-theme {
     color: #C45525;
     background-color: #E8A75D;

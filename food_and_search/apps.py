@@ -1,3 +1,4 @@
+#app name of django
 from django.apps import AppConfig
 
 

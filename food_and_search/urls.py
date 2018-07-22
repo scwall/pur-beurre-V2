@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 
 from food_and_search.views import detail_product
 from . import views
-
+# Application urls route
 app_name = 'food_and_search'
 urlpatterns = [
     path('', views.index, name='index'),
