@@ -77,17 +77,17 @@ def result(request):
             reverse('food_and_search:result') + '?product={name_product}&product-save={product_save}&page={page}'.format(
                 product_save=id_product, name_product=name_product_search, page=page))
 
-
+# View detail product
 def detail_product(request, pk):
     product = get_object_or_404(Product, pk=pk)
     return render(request, template_name='detail_product.html', context={'detail_product': product})
 
-
+# Views user
 @login_required(login_url='/login/')
 def user_account(request):
     return render(request, template_name='user_page.html')
 
-
+#Form and view for user registration
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)

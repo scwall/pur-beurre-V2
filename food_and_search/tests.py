@@ -6,6 +6,7 @@ from django.test import TestCase
 from food_and_search.models import Product, Categorie
 from django.contrib.auth.models import User
 class ProductTestCase(TestCase):
+    #Creating objects in database for the tests
     def setUp(self):
         self.fruit = Categorie.objects.create(name='fruit', id_category='fruit_id')
         self.pomme = Product.objects.create(name="pomme",
@@ -81,7 +82,7 @@ class ProductTestCase(TestCase):
         self.client = Client()
         self.user = User.objects.create_user('foo', 'foo@bar.com', 'foo#')
 
-
+    # Test if the  models categorie is right
     def test_categorie(self):
         categorie = Categorie.objects.get(id_category='fruit_id')
         self.assertEqual(categorie.id_category, 'fruit_id')
