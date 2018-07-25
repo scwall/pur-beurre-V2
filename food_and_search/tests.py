@@ -118,21 +118,30 @@ class ProductTestCase(TestCase):
         self.client.login(username='foo', password='foo#')
         response = self.client.post("/result/",{'name_product_search':'pomme','product_form': '1'}, follow=True)
         self.assertEqual(response.status_code, 200)
+        user = User.objects.get(username='foo')
+        user_products = Product.objects.filter(user_product__exact=user.id)
+        self.assertEqual('pomme', user_products[0].name)
         self.client.logout()
         response = self.client.post("/result/", {'name_product_search': 'pomme', 'product_form': '1'})
         self.assertEqual(response.status_code, 302)
+
     def test_saveproduct(self):
         self.client.login(username='foo', password='foo#')
         response = self.client.get(reverse('food_and_search:save_product'))
         self.assertEqual(response.status_code, 200)
         response = self.client.post("/saveproduct/", {'product_form': '1'})
         self.assertEqual(response.status_code, 302)
+        user = User.objects.get(username='foo')
+        user_products = Product.objects.filter(user_product__exact=user.id)
+        self.assertFalse(user_products.exists())
         self.client.logout()
+
     def test_detailproduct(self):
         response = self.client.get(reverse('food_and_search:detailproduct',kwargs={'pk':1}))
         self.assertEqual(response.status_code, 200)
         response = self.client.get(reverse('food_and_search:detailproduct', kwargs={'pk': 18}))
         self.assertEqual(response.status_code, 404)
+
     def test_user_account(self):
         response = self.client.get(reverse('food_and_search:user'))
         self.assertEqual(response.status_code, 302)
@@ -140,6 +149,7 @@ class ProductTestCase(TestCase):
         response = self.client.get(reverse('food_and_search:user'))
         self.assertEqual(response.status_code, 200)
         self.client.logout()
+
     def test_signup_account(self):
         response = self.client.post("/signup/", {'username': 'Foo2', 'password1': 'Foo12345','password2':'Foo12345','email':'foo@baar.com'})
         self.assertEqual(response.status_code, 302)
