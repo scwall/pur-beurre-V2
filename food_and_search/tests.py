@@ -126,7 +126,7 @@ class ProductTestCase(TestCase):
         response = self.client.get(reverse('food_and_search:save_product'))
         self.assertEqual(response.status_code, 200)
         response = self.client.post("/saveproduct/", {'product_form': '1'})
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
         self.client.logout()
     def test_detailproduct(self):
         response = self.client.get(reverse('food_and_search:detailproduct',kwargs={'pk':1}))

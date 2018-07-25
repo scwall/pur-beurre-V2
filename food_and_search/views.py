@@ -10,9 +10,11 @@ from django.urls import reverse
 
 from food_and_search.models import Categorie, Product, SignUpForm
 
+
 # View for index.html
 def index(request):
     return render(request, 'index.html')
+
 
 # View for save_product.html login required for show save product
 @login_required(login_url='/login/')
@@ -22,17 +24,23 @@ def save_product(request):
     paginator = Paginator(user_products, 6)
     if request.method == 'GET':
         page = request.GET.get('page')
-    products_paginator = paginator.get_page(number=page)
-    context = {'products': products_paginator}
-    if not products_paginator.has_next()  and paginator.count % 6 != 0 :
-        context['row'] = True
+        products_paginator = paginator.get_page(number=page)
+        context = {'products': products_paginator}
+        if not products_paginator.has_next() and paginator.count % 6 != 0:
+            context['row'] = True
+        return render(request, 'save_product.html', context)
     if request.method == 'POST':
         current_user = request.user
+        page = request.POST.get('page')
+        if page is '':
+            page = 0
         id_product = request.POST.get('product_form')
         product = Product.objects.get(id=id_product)
         product.user_product.remove(current_user)
+        return redirect(
+            reverse(
+                'food_and_search:save_product') + '?page={page}'.format(page=page))
 
-    return render(request, 'save_product.html', context)
 
 # View for result product, using paginator for show products in many page
 def result(request):
@@ -74,20 +82,24 @@ def result(request):
             return redirect('/login')
 
         return redirect(
-            reverse('food_and_search:result') + '?product={name_product}&product-save={product_save}&page={page}'.format(
+            reverse(
+                'food_and_search:result') + '?product={name_product}&product-save={product_save}&page={page}'.format(
                 product_save=id_product, name_product=name_product_search, page=page))
+
 
 # View detail product
 def detail_product(request, pk):
     product = get_object_or_404(Product, pk=pk)
     return render(request, template_name='detail_product.html', context={'detail_product': product})
 
+
 # Views user
 @login_required(login_url='/login/')
 def user_account(request):
     return render(request, template_name='user_page.html')
 
-#Form and view for user registration
+
+# Form and view for user registration
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
