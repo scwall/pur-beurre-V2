@@ -10,7 +10,7 @@ from food_and_search.models import Categorie, Product
 
 
 class Command(BaseCommand):
-    help = 'Use the command --chargedatabase, to load the database or use, for example --updatedatabase in a cron to update it'
+    help = 'Use the command --chargedatabase, to load the database'
 
     def add_arguments(self, parser):
         # for arg for load database
