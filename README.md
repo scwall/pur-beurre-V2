@@ -1,4 +1,4 @@
-# Purebeurre-V2
+# Pur-Beurre-V2
 Software for the company "Pur beurre"
 
 ## Getting Started
