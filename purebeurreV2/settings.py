@@ -33,7 +33,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('SECRET_KEY', '4i&u(!%shd*0-3$ls)fohsjsd48t(gu%1-ch_wyzk7@#n3bd8e')
 if os.environ.get('ENV') == 'PRODUCTION':
     DEBUG = False
-    #SECRET_KEY = "".join([random.choice(string.printable) for _ in range(24)])
 else:
     DEBUG = True
 
