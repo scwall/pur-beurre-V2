@@ -32,7 +32,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ.get('ENV') == 'PRODUCTION':
     DEBUG = False
-    SECRET_KEY = "".join([random.choice(string.printable) for _ in range(24)])
+    #SECRET_KEY = "".join([random.choice(string.printable) for _ in range(24)])
 else:
     DEBUG = True
     SECRET_KEY = 'gjtd%4j^9pq1y108nwl!5ku#h4sd9-%xzi0ibhnn7@pyh5nkwk'
