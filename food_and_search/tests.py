@@ -1,10 +1,11 @@
-from django.test import TestCase, Client
+from django.test import TestCase, Client, SimpleTestCase
 from django.urls import reverse
 from django.core.management import call_command
 from django.test import TestCase
 # Create your tests here.
 from food_and_search.models import Product, Categorie
 from django.contrib.auth.models import User
+from unittest import mock
 class ProductTestCase(TestCase):
     #Creating objects in database for the tests
     def setUp(self):
@@ -151,11 +152,10 @@ class ProductTestCase(TestCase):
         self.client.logout()
 
     def test_signup_account(self):
+        response = self.client.get(reverse('food_and_search:signup'))
+        self.assertEqual(response.status_code, 200)
         response = self.client.post("/signup/", {'username': 'Foo2', 'password1': 'Foo12345','password2':'Foo12345','email':'foo@baar.com'})
         self.assertEqual(response.status_code, 302)
         user = User.objects.get(username='Foo2')
         self.assertIsNotNone(user)
-
-
-
 
